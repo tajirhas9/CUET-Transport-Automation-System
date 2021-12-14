@@ -24,24 +24,24 @@
 
 ## Overview
 
-[CUET Transport Automation System](https://github.com/tajirhas9/CUET-Transport-Automation-System) is a production-ready front-end solution for managing transportation system of CUET like
-- Scheduling Buses
-- Managing Drivers
-- Validating Buses' status, and so on.
+[চুয়েট ট্রান্সপোর্ট অটোমেশন সিস্টেম](https://github.com/tajirhas9/CUET-Transport-Automation-System) হল চুয়েটের পরিবহন ব্যবস্থা পরিচালনার জন্য একটি উৎপাদন-প্রস্তুত ফ্রন্ট-এন্ড সমাধান। এটি পরিবহন সম্পর্কিত অনেক কিছু পরিচালনা করতে পারে। যেমন:
+- বাস শিডিউল করতে
+- ড্রাইভার ম্যানেজ করতে
+- বাসের অবস্থা যাচাই করতে, এবং আরো অনেক
 
 ## Features
 
 ```txt
-- Login / Logout
+- লগইন / লগআউট
 
-- Update Bus Information
-- Update Driver Information
-- Update Bus Schedule
+- বাসের তথ্য আপডেট করা
+- ড্রাইভারের তথ্য আপডেট করা
+- বাসের সময়সূচী আপডেট করা
 ```
 
 ## Preparation
 
-You need to install [node](http://nodejs.org/) and [git](https://git-scm.com/) locally. The project is based on [typescript](https://www.typescriptlang.org/), [vue](https://vuejs.org/index.html).
+আপনাকে locally [নোড](http://nodejs.org/) এবং [গিট](https://git-scm.com/) ইনস্টল করতে হবে। এই প্রকল্পটি [typescript](https://www.typescriptlang.org/), [vue](https://vuejs.org/index.html) এর উপর ভিত্তি করে তৈরি করা হয়েছে।
 
 ## Project Structure
 
@@ -87,7 +87,7 @@ You need to install [node](http://nodejs.org/) and [git](https://git-scm.com/) l
 
 ## Project setup
 
-With [yarn](https://yarnpkg.com/lang/en/) or [npm](https://www.npmjs.com/get-npm)
+[yarn](https://yarnpkg.com/lang/en/) অথবা [npm](https://www.npmjs.com/get-npm) এর মাধ্যমে:
 
 #### Install dependencies
 
@@ -127,7 +127,7 @@ npm run svg
 
 ## Browsers support
 
-Modern browsers and Internet Explorer 10+.
+আধুনিক ব্রাউজার এবং ইন্টারনেট এক্সপ্লোরার 10+।
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | --------- | --------- | --------- | --------- |
