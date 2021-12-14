@@ -20,7 +20,7 @@
   </a>
 </p>
 
-English | [বাংলা](./README-bn.md)
+[English](./README.md) | বাংলা
 
 ## Overview
 
