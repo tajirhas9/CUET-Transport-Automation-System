@@ -1,8 +1,8 @@
 {
-  "name": "vue-typescript-admin-template",
+  "name": "cuet-transport-automation-system",
   "version": "1.0.0",
   "private": true,
-  "author": "Chong Guo <armourcy@gmail.com>",
+  "author": "Syed Tajir Hasnain <u1604081@student.cuet.ac.bd>",
   "scripts": {
     "serve": "concurrently \"npm:mock\" \"vue-cli-service serve\"",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
@@ -119,11 +119,9 @@
     "pre-commit": "lint-staged"
   },
   "keywords": [
-    "vue",
-    "typescript",
-    "admin",
-    "template",
-    "element-ui"
+    "cuet",
+    "transport",
+    "automation"
   ],
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [

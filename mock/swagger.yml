@@ -798,10 +798,10 @@ components:
             - 3
         author:
           type: string
-          example: Chong Guo
+          example: Syed Tajir Hasnain
         reviewer:
           type: string
-          example: Chong Guo
+          example: Syed Tajir Hasnain
         type:
           type: string
           enum:
@@ -845,7 +845,7 @@ components:
           $ref: '#/components/schemas/Timestamp'
         username:
           type: string
-          example: Chong Guo
+          example: Syed Tajir Hasnain
         price:
           type: number
           format: double
@@ -892,7 +892,7 @@ components:
           example: 12345678
         name:
           type: string
-          example: Chong Guo
+          example: Syed Tajir Hasnain
         email:
           type: string
           example: armourcy@gmail.com
