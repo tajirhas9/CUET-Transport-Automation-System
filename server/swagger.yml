@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
-  description: Mock API for vue-typescript-admin-template.
+  description: CUET Transport Automation System API
   version: 1.0.0
-  title: Mock API
+  title: CUET Transport Automation System API
   contact:
-    email: armourcy@email.com
+    email: tajircuet@gmail.com
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: /mock-api/v1
+  - url: /ctas/v1
 tags:
   - name: articles
     description: Articles data related api.

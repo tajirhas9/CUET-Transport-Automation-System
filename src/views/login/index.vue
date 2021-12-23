@@ -137,7 +137,7 @@ export default class extends Vue {
   }
 
   private validatePassword = (rule: any, value: string, callback: Function) => {
-    if (value.length < 6) {
+    if (value.length < 3) {
       callback(new Error('The password can not be less than 6 digits'))
     } else {
       callback()
@@ -200,17 +200,18 @@ export default class extends Vue {
     (this.$refs.loginForm as ElForm).validate(async(valid: boolean) => {
       if (valid) {
         this.loading = true
-        await UserModule.Login(this.loginForm)
-        this.$router.push({
-          path: this.redirect || '/',
-          query: this.otherQuery
-        }).catch(err => {
-          console.warn(err)
-        })
-        // Just to simulate the time of the request
-        setTimeout(() => {
+        try {
+          await UserModule.Login(this.loginForm)
+          this.$router.push({
+            path: this.redirect || '/',
+            query: this.otherQuery
+          }).catch(err => {
+            console.warn(err)
+            this.loading = false
+          })
+        } catch (e) {
           this.loading = false
-        }, 0.5 * 1000)
+        }
       } else {
         return false
       }

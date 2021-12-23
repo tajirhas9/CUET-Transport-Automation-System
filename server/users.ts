@@ -1,6 +1,8 @@
 import faker from 'faker'
 import { Response, Request } from 'express'
 import { IUserData } from '../src/api/types'
+import { pool } from './db-conf'
+import { generateToken } from './security'
 
 const userList: IUserData[] = [
   {
@@ -48,22 +50,51 @@ export const register = (req: Request, res: Response) => {
   })
 }
 
-export const login = (req: Request, res: Response) => {
-  const { username } = req.body
-  for (const user of userList) {
-    if (user.username === username) {
+export const login = async(req: Request, res: Response) => {
+  const { username, password } = req.body
+  try {
+    const queryString = `select * from users where username='${username}' and password='${password}';`
+    console.log(queryString)
+    const user = await pool.query(queryString)
+    console.log(JSON.stringify(user.rows))
+    if (user.rowCount === 0) {
+      return res.status(401).json({
+        code: 401,
+        messaege: 'Invalid User'
+      })
+    } else {
+      const accessToken = generateToken(user.rows[0].username)
+      console.log(`accessToken: ${accessToken}`)
       return res.json({
-        code: 20000,
+        code: 200,
         data: {
-          accessToken: username + '-token'
+          user: user.rows[0],
+          accessToken: accessToken
         }
       })
     }
+  } catch (e: any) {
+    console.error(e)
+    return res.status(400).json({
+      code: 400,
+      messaege: 'Database Error'
+    })
   }
-  return res.status(400).json({
-    code: 50004,
-    messaege: 'Invalid User'
-  })
+
+  // for (const user of userList) {
+  //   if (user.username === username) {
+  //     return res.json({
+  //       code: 20000,
+  //       data: {
+  //         accessToken: username + '-token'
+  //       }
+  //     })
+  //   }
+  // }
+  // return res.status(400).json({
+  //   code: 50004,
+  //   messaege: 'Invalid User'
+  // })
 }
 
 export const logout = (req: Request, res: Response) => {
@@ -91,7 +122,7 @@ export const getUserInfo = (req: Request, res: Response) => {
   return res.json({
     code: 20000,
     data: {
-      user: req.header('X-Access-Token') === 'admin-token' ? userList[0] : userList[1]
+      user: userList[0]
     }
   })
 }

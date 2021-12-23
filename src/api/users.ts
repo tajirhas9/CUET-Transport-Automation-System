@@ -33,7 +33,7 @@ export const deleteUser = (username: string) =>
     method: 'delete'
   })
 
-export const login = (data: any) =>
+export const login = (data: {username: string, password: string}) =>
   request({
     url: '/users/login',
     method: 'post',
