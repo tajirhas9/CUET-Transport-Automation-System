@@ -40,10 +40,17 @@ export interface IUserData {
   phone: string
   avatar: string
   introduction: string
-  roles: string[]
+  role: number
 }
 
 export interface LookUp {
   id: number
   name: string
+}
+
+export interface ISchedule {
+  busId: number
+  driverId: number
+  routeId: number
+  time: string
 }

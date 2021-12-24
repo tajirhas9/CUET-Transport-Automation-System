@@ -6,6 +6,9 @@ import { ITagsViewState } from './modules/tags-view'
 import { IErrorLogState } from './modules/error-log'
 import { IPermissionState } from './modules/permission'
 import { ISettingsState } from './modules/settings'
+import { IBusesState } from './modules/bus'
+import { IDriversState } from './modules/driver'
+import { IBusRoutesState } from './modules/bus-route'
 
 Vue.use(Vuex)
 
@@ -16,6 +19,9 @@ export interface IRootState {
   errorLog: IErrorLogState
   permission: IPermissionState
   settings: ISettingsState
+  bus: IBusesState
+  driver: IDriversState
+  busRoute: IBusRoutesState
 }
 
 // Declare empty store first, dynamically register all modules later.

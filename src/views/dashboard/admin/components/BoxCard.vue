@@ -59,15 +59,11 @@ import Mallki from '@/components/TextHoverEffect/Mallki.vue'
 })
 export default class extends Vue {
   get name() {
-    return UserModule.name
+    return UserModule.username
   }
 
-  get avatar() {
-    return UserModule.avatar
-  }
-
-  get roles() {
-    return UserModule.roles
+  get role() {
+    return UserModule.role
   }
 }
 </script>

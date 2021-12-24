@@ -4,12 +4,10 @@ import { UserModule } from '@/store/modules/user'
 export const permission: DirectiveOptions = {
   inserted(el, binding) {
     const { value } = binding
-    const roles = UserModule.roles
-    if (value && value instanceof Array && value.length > 0) {
-      const permissionRoles = value
-      const hasPermission = roles.some(role => {
-        return permissionRoles.includes(role)
-      })
+    const role = UserModule.role
+    if (value) {
+      const permissionRole = value
+      const hasPermission = role === permissionRole
       if (!hasPermission) {
         el.style.display = 'none'
       }

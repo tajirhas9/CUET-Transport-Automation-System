@@ -13,8 +13,9 @@ export default {
   driver: {
     driver: 'চালক',
     totalDriver: 'মোট চালক',
-    rohim: 'রহিম',
-    korim: 'করিম'
+    name: 'নাম',
+    address: 'ঠিকানা',
+    licenseStatus: 'লাইসেন্স স্ট্যাটাস'
   },
   general: {
     id: 'আইডি'

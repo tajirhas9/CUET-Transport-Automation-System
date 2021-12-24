@@ -31,6 +31,9 @@ import PieChart from './components/PieChart.vue'
   }
 })
 export default class extends Vue {
+  // TODO: not implemented yet
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  handleSetLineChartData() {}
 }
 </script>
 

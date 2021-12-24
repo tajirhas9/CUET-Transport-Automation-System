@@ -6,3 +6,10 @@ export const getSchedule = (params: any) =>
     method: 'get',
     params
   })
+
+export const getBuses = (params?: any) =>
+  request({
+    url: '/buses',
+    method: 'get',
+    params
+  })

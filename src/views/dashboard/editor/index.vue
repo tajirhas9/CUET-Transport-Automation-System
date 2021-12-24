@@ -6,11 +6,6 @@
         style="float: left"
       >
         Your roles:
-        <span
-          v-for="item in roles"
-          :key="item"
-          class="info-roles"
-        >{{ item }}</span>
       </pan-thumb>
       <github-corner style="position: absolute; top: 0px; border: 0; right: 0;" />
       <div class="info-container">
@@ -44,15 +39,11 @@ export default class extends Vue {
   private emptyGif = 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'
 
   get name() {
-    return UserModule.name
+    return UserModule.username
   }
 
-  get avatar() {
-    return UserModule.avatar
-  }
-
-  get roles() {
-    return UserModule.roles
+  get role() {
+    return UserModule.role
   }
 }
 </script>

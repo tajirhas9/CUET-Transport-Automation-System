@@ -8,7 +8,7 @@
     <dx-data-grid
       id="gridContainer"
       class="grid"
-      key-expr="id"
+      key-expr="driverId"
       :ref="dataGridRefKey"
       :data-source="list"
       :show-borders="true"
@@ -46,59 +46,43 @@
         />
         <DxForm>
           <DxItem :col-count="2" :col-span="2" item-type="group">
-            <DxItem data-field="busId" />
-            <DxItem data-field="driverId" />
-            <DxItem data-field="time" />
+            <DxItem data-field="name" />
+            <DxItem data-field="address" />
+            <DxItem data-field="licenseStatus" />
           </DxItem>
         </DxForm>
       </DxEditing>
-      <!-- <DxColumn :group-index="0" data-field="Product" /> -->
-      <!-- <dx-column
-        data-field="id"
-        :caption="$t('general.id')"
-        data-type="number"
-        alignment="right"
-        :allow-editing="false"
-        header-cell-template="title-header"
-        :width="100"
-      /> -->
       <dx-column
-        data-field="busId"
-        data-type="number"
+        data-field="name"
+        data-type="string"
         header-cell-template="title-header"
-        :caption="$t('bus.bus')"
-        cell-template="cellTemplate"
-        :width="500"
-      >
-        <dx-lookup
-          :data-source="buses"
-          value-expr="id"
-          display-expr="name"
-        />
-        <DxRequiredRule />
-      </dx-column>
-      <dx-column
-        data-field="driverId"
-        data-type="number"
-        header-cell-template="title-header"
-        :caption="$t('driver.driver')"
-        cell-template="cellTemplate"
-        :width="500"
-      >
-        <dx-lookup
-          :data-source="drivers"
-          value-expr="id"
-          display-expr="name"
-        />
-        <DxRequiredRule />
-      </dx-column>
-      <dx-column
-        data-field="time"
-        data-type="datetime"
-        header-cell-template="title-header"
-        :caption="$t('bus.schedule')"
+        :caption="$t('driver.name')"
         :width="200"
       >
+        <DxRequiredRule />
+      </dx-column>
+      <dx-column
+        data-field="address"
+        data-type="string"
+        header-cell-template="title-header"
+        :caption="$t('driver.address')"
+        :width="200"
+      >
+        <DxRequiredRule />
+      </dx-column>
+      <dx-column
+        data-field="licenseStatus"
+        data-type="boolean"
+        header-cell-template="title-header"
+        :caption="$t('driver.licenseStatus')"
+        cell-template="licenseStatusTemplate"
+        :width="500"
+      >
+        <dx-lookup
+          :data-source="licenseStatusOptions"
+          value-expr="value"
+          display-expr="name"
+        />
         <DxRequiredRule />
       </dx-column>
       <dx-column type="buttons">
@@ -123,8 +107,8 @@
           <a>{{ data.text }}</a>
         </div>
       </template>
-      <template #statusTemplate="{data}">
-        <el-tag :type="data.text | statusFilter">
+      <template #licenseStatusTemplate="{data}">
+        <el-tag :type="data.text | driverLicenseStatusFilter">
           {{ data.text }}
         </el-tag>
       </template>
@@ -139,19 +123,16 @@
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import VueDevex from '@/layout/mixin/vue-devex'
-import { LookUp } from '@/api/types'
-import { BusModule } from '@/store/modules/bus'
 import { DriverModule } from '@/store/modules/driver'
-import { BusRouteModule } from '@/store/modules/bus-route'
 
 interface IRowData {
-  id: number
-  busId: number
   driverId: number
-  time: string
+  name: string
+  address: string
+  licenseStatus: boolean
 }
 @Component({
-  name: 'ScheduleTable',
+  name: 'DriverTable',
   components: {
   }
 })
@@ -159,62 +140,37 @@ export default class extends mixins(VueDevex) {
   constructor() {
     super()
     super.dataGridRefKey = this.gridRefKey
-    super.tableName = 'Bus Schedule'
+    super.tableName = 'Drivers'
   }
 
   @Prop() driverIdProp!: any
 
   private gridRefKey = 'scheduleGrid';
   private list: IRowData[] = [];
-  private driverLookUp: LookUp[] = [
-    {
-      id: 1,
-      name: this.$t('driver.rohim').toString()
-    },
-    {
-      id: 2,
-      name: this.$t('driver.korim').toString()
-    }
-  ];
-
-  private busLookUp: LookUp[] = [
-    {
-      id: 1,
-      name: this.$t('bus.rupsha').toString()
-    },
-    {
-      id: 2,
-      name: this.$t('bus.meghna').toString()
-    }
-  ];
+  private licenseStatusOptions = [
+    { value: false, name: 'Invalid' },
+    { value: true, name: 'Valid' }
+  ]
 
   get drivers() {
     return DriverModule.drivers
   }
 
-  get buses() {
-    return BusModule.buses
+  private async getDrivers() {
+    await DriverModule.getDrivers()
   }
 
   private async getList() {
     this.listLoading = true
-    await BusModule.getBuses()
-    await DriverModule.getDrivers()
-    await BusRouteModule.getRoutes()
-    this.list = [
-      {
-        id: 1,
-        busId: 1,
-        driverId: 1,
-        time: '2019-01-01 00:00:00'
-      },
-      {
-        id: 2,
-        busId: 2,
-        driverId: 2,
-        time: '2019-01-01 00:00:00'
-      }
-    ]
+    this.list = []
+    this.drivers.forEach(driver => {
+      this.list.push({
+        driverId: driver.id,
+        name: driver.name,
+        address: driver.address,
+        licenseStatus: driver.licenseStatus
+      })
+    })
     this.listLoading = false
   }
 
@@ -232,6 +188,7 @@ export default class extends mixins(VueDevex) {
   }
 
   created() {
+    this.getDrivers()
     this.getList() // table data
   }
 
@@ -240,6 +197,11 @@ export default class extends mixins(VueDevex) {
     console.log(
       `driverIdProp props changed from ${oldVal} to ${val}`
     )
+  }
+
+  @Watch('drivers')
+  OnDriversChange() {
+    this.getList()
   }
 
   @Watch('clearFilterTriggered')

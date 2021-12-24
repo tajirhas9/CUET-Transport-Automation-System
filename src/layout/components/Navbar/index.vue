@@ -29,18 +29,17 @@
         trigger="click"
       >
         <div class="avatar-wrapper">
-          <img
-            :src="avatar+'?imageView2/1/w/80/h/80'"
+         <img src="@/assets/images/cuet-logo.png" alt="cuet-logo"
             class="user-avatar"
           >
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/">
+          <!-- <router-link to="/profile/">
             <el-dropdown-item>
               {{ $t('navbar.profile') }}
             </el-dropdown-item>
-          </router-link>
+          </router-link> -->
           <el-dropdown-item
             divided
             @click.native="logout"
@@ -86,10 +85,6 @@ export default class extends Vue {
 
   get device() {
     return AppModule.device.toString()
-  }
-
-  get avatar() {
-    return UserModule.avatar
   }
 
   private toggleSideBar() {
@@ -173,7 +168,7 @@ export default class extends Vue {
         .user-avatar {
           cursor: pointer;
           width: 40px;
-          height: 40px;
+          height: 50px;
           border-radius: 10px;
         }
 

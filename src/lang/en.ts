@@ -13,8 +13,9 @@ export default {
   driver: {
     driver: 'Driver',
     totalDriver: 'Total Driver',
-    rohim: 'Rohim',
-    korim: 'Korim'
+    name: 'Name',
+    address: 'Address',
+    licenseStatus: 'License Status'
   },
   general: {
     id: 'ID'
