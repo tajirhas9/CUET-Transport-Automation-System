@@ -57,7 +57,7 @@
         data-type="string"
         header-cell-template="title-header"
         :caption="$t('driver.name')"
-        :width="200"
+        :width="500"
       >
         <DxRequiredRule />
       </dx-column>
@@ -66,7 +66,7 @@
         data-type="string"
         header-cell-template="title-header"
         :caption="$t('driver.address')"
-        :width="200"
+        :width="500"
       >
         <DxRequiredRule />
       </dx-column>
@@ -76,7 +76,6 @@
         header-cell-template="title-header"
         :caption="$t('driver.licenseStatus')"
         cell-template="licenseStatusTemplate"
-        :width="500"
       >
         <dx-lookup
           :data-source="licenseStatusOptions"

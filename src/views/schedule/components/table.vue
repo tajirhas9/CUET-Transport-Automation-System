@@ -143,6 +143,7 @@ import { LookUp } from '@/api/types'
 import { BusModule } from '@/store/modules/bus'
 import { DriverModule } from '@/store/modules/driver'
 import { BusRouteModule } from '@/store/modules/bus-route'
+import { BusScheduleModule } from '@/store/modules/schedule'
 
 interface IRowData {
   id: number
@@ -201,6 +202,7 @@ export default class extends mixins(VueDevex) {
     await BusModule.getBuses()
     await DriverModule.getDrivers()
     await BusRouteModule.getRoutes()
+    await BusScheduleModule.getBusSchedules()
     this.list = [
       {
         id: 1,

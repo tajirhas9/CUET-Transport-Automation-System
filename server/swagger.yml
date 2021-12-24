@@ -27,6 +27,8 @@ paths:
       summary: Get Bus list
       description: Returns a list of buses
       operationId: getBuses
+      security:
+        - AccessTokenAuth: []
       responses:
         200:
           description: OK
@@ -39,7 +41,7 @@ paths:
                     type: integer
                     format: int32
                   data:
-                    type: objct
+                    type: object
                     properties:
                       items:
                         type: array
@@ -52,6 +54,8 @@ paths:
       summary: Get Drivers list
       description: Returns a list of drivers
       operationId: getDrivers
+      security:
+        - AccessTokenAuth: []
       responses:
         200:
           description: OK
@@ -64,7 +68,7 @@ paths:
                     type: integer
                     format: int32
                   data:
-                    type: objct
+                    type: object
                     properties:
                       items:
                         type: array
@@ -77,6 +81,8 @@ paths:
       summary: Get Routes list
       description: Returns a list of available routes
       operationId: getRoutes
+      security:
+        - AccessTokenAuth: []
       responses:
         200:
           description: OK
@@ -89,7 +95,7 @@ paths:
                     type: integer
                     format: int32
                   data:
-                    type: objct
+                    type: object
                     properties:
                       items:
                         type: array
@@ -163,12 +169,107 @@ paths:
                   code:
                     type: integer
                     format: int32
+  /users/info:
+    get:
+      tags:
+        - users
+      summary: Get Users information
+      description: Returns user information
+      operationId: getUserInfo
+      security:
+        - AccessTokenAuth: []
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                      username:
+                        type: string
+                      role:
+                        type: integer
+                        format: int64
+  /schedule:
+    get:
+      tags:
+        - bus
+      summary: Get Bus Schedule
+      description: Returns bus schedule
+      operationId: getSchedule
+      security:
+        - AccessTokenAuth: []
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      schedule:
+                        type: array
+                        items:
+                          id:
+                            type: integer
+                          bus:
+                            type: integer
+                          driver:
+                            type: integer
+                          route:
+                            type: integer
+                          datetime:
+                            type: string
+                          isStandBy:
+                            type: boolean
+    post:
+      tags:
+        - bus
+      summary: Add new schedule for a bus
+      description: Inserts new schedule record for a bus
+      operationId: addSchedule
+      parameters:
+        - name: bus
+          in: query
+          required: true
+          description: Bus id
+          type: integer
+        - name: driver
+          in: query
+          required: true
+          description: Driver id
+          type: integer
+        - name: route
+          in: query
+          required: true
+          description: Route id
+          type: integer
+        - name: datetime
+          in: query
+          required: true
+          description: Schedule
+          type: string
+        - name: isStandBy
+          in: query
+          required: true
+          description: Bus stand by status
+          type: boolean
 components:
   securitySchemes:
     AccessTokenAuth:
       type: apiKey
       in: header
-      name: X-Access-Token
+      name: authorization
   responses:
     NotFound:
       description: The specified resource was not found

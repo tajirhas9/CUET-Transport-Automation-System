@@ -38,7 +38,6 @@ export interface IUserData {
   name: string
   email: string
   phone: string
-  avatar: string
   introduction: string
   role: number
 }

@@ -22,6 +22,7 @@ export default {
   },
   route: {
     busSchedule: 'Bus Schedule',
+    drivers: 'Drivers',
     dashboard: 'Dashboard',
     documentation: 'Documentation',
     guide: 'Guide',

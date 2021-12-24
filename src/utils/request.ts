@@ -48,21 +48,6 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000
       })
-      if (response.status === 403 || response.status === 401) {
-        console.log(`[response] ${response.config.method} ${response.config.url}: ${JSON.stringify(response.data)}`)
-        MessageBox.confirm(
-          'You have been logged out, you can cancel to stay on this page, or log in again',
-          'Sure to log out',
-          {
-            confirmButtonText: 'Login again',
-            cancelButtonText: 'Cancel',
-            type: 'warning'
-          }
-        ).then(() => {
-          UserModule.ResetToken()
-          location.reload() // To prevent bugs from vue-router
-        })
-      }
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return response.data
@@ -71,6 +56,21 @@ service.interceptors.response.use(
   (error) => {
     if (!error.response.data.message) {
       console.error('Response message not found.')
+    }
+    if (error.response.status === 403 || error.response.status === 401) {
+      console.log(`[response] ${error.response.config.method} ${error.response.config.url}: ${JSON.stringify(error.response.data)}`)
+      MessageBox.confirm(
+        'You have been logged out, you can cancel to stay on this page, or log in again',
+        'Sure to log out',
+        {
+          confirmButtonText: 'Login again',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }
+      ).then(() => {
+        UserModule.ResetToken()
+        location.reload() // To prevent bugs from vue-router
+      })
     }
     Message({
       message: error.response.data.message ? error.response.data.message : error.message,

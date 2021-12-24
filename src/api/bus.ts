@@ -1,15 +1,15 @@
 import request from '@/utils/request'
 
-export const getSchedule = (params: any) =>
+export const getBuses = (params?: any) =>
   request({
-    url: '/schedule',
+    url: '/buses',
     method: 'get',
     params
   })
 
-export const getBuses = (params?: any) =>
+export const getBusSchedule = (params?: any) =>
   request({
-    url: '/buses',
+    url: '/schedule',
     method: 'get',
     params
   })

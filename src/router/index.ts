@@ -103,7 +103,7 @@ export const asyncRoutes: RouteConfig[] = [
         meta: {
           roles: [Roles.admin, Roles.staff, Roles.teacher, Roles.student],
           title: 'busSchedule',
-          icon: 'bus'
+          icon: 'list'
         }
       }
     ]
@@ -119,7 +119,7 @@ export const asyncRoutes: RouteConfig[] = [
         props: true,
         meta: {
           roles: [Roles.admin, Roles.staff, Roles.teacher, Roles.student],
-          title: 'Drivers',
+          title: 'drivers',
           icon: 'driver'
         }
       }

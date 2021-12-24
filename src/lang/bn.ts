@@ -22,6 +22,7 @@ export default {
   },
   route: {
     busSchedule: 'বাসের সময়সূচী',
+    drivers: 'চালক',
     dashboard: 'ড্যাশবোর্ড',
     documentation: 'Documentation',
     guide: 'Guide',

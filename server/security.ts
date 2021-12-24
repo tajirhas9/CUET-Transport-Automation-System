@@ -11,7 +11,7 @@ export const accessTokenAuth = (req: any, res: Response, next: NextFunction) => 
       messaege: 'Invalid Access Token'
     })
   }
-  jwt.verify(accessToken, TOKEN_SECRET, (err: any, username: any) => {
+  jwt.verify(accessToken, TOKEN_SECRET, (err: any, result: any) => {
     console.log(err)
 
     if (err) {
@@ -20,8 +20,7 @@ export const accessTokenAuth = (req: any, res: Response, next: NextFunction) => 
         messaege: 'Invalid Access Token'
       })
     }
-
-    req.username = username
+    req.username = result.username
 
     next()
   })

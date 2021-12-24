@@ -11,7 +11,6 @@
     </div>
     <div style="position:relative;">
       <pan-thumb
-        :image="avatar"
         class="panThumb"
       />
       <mallki

@@ -9,6 +9,7 @@ import { ISettingsState } from './modules/settings'
 import { IBusesState } from './modules/bus'
 import { IDriversState } from './modules/driver'
 import { IBusRoutesState } from './modules/bus-route'
+import { ISchedulesState } from './modules/schedule'
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ export interface IRootState {
   bus: IBusesState
   driver: IDriversState
   busRoute: IBusRoutesState
+  busSchedule: ISchedulesState
 }
 
 // Declare empty store first, dynamically register all modules later.
