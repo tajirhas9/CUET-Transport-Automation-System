@@ -11,7 +11,7 @@ import { connector, summarise } from 'swagger-routes-express'
 require('dotenv').config()
 
 const app = express()
-const port = 9528
+const port = process.env.PORT || 9528
 
 // Compression
 app.use(compression())
