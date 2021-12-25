@@ -53,6 +53,8 @@ paths:
       summary: Add new bus
       description: Add new bus
       operationId: addBus
+      security:
+        - AccessTokenAuth: []
       parameters:
         - name: name
           in: query
@@ -70,6 +72,8 @@ paths:
       summary: Updates bus information
       description: Updates bus information
       operationId: updateBus
+      security:
+        - AccessTokenAuth: []
       parameters:
         - name: id
           in: query
@@ -119,6 +123,8 @@ paths:
       summary: Add new driver
       description: Add new driver
       operationId: addDriver
+      security:
+        - AccessTokenAuth: []
       parameters:
         - name: name
           in: query
@@ -141,6 +147,8 @@ paths:
       summary: Updates driver information
       description: Updates driver information
       operationId: updateDriver
+      security:
+        - AccessTokenAuth: []
       parameters:
         - name: id
           in: query
@@ -326,6 +334,8 @@ paths:
       summary: Add new schedule for a bus
       description: Inserts new schedule record for a bus
       operationId: addSchedule
+      security:
+        - AccessTokenAuth: []
       parameters:
         - name: bus
           in: query
@@ -358,6 +368,8 @@ paths:
       summary: Updates schedule for a bus
       description: Updates existing schedule record for a bus
       operationId: updateSchedule
+      security:
+        - AccessTokenAuth: []
       parameters:
         - name: id
           in: query
