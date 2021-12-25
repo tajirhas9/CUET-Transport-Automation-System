@@ -47,6 +47,45 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Bus'
+    post:
+      tags:
+        - buses
+      summary: Add new bus
+      description: Add new bus
+      operationId: addBus
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: Bus name
+          type: string
+        - name: status
+          in: query
+          required: true
+          description: Bus Condition good
+          type: boolean
+    put:
+      tags:
+        - buses
+      summary: Updates bus information
+      description: Updates bus information
+      operationId: updateBus
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Bus id
+          type: integer
+        - name: name
+          in: query
+          required: true
+          description: Bus name
+          type: string
+        - name: status
+          in: query
+          required: true
+          description: Bus Condition good
+          type: boolean
   /drivers:
     get:
       tags:
@@ -74,6 +113,55 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Driver'
+    post:
+      tags:
+        - driver
+      summary: Add new driver
+      description: Add new driver
+      operationId: addDriver
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: Driver name
+          type: string
+        - name: address
+          in: query
+          required: true
+          description: Driver address
+          type: string
+        - name: licenseStatus
+          in: query
+          required: true
+          description: Driver License Status
+          type: boolean
+    put:
+      tags:
+        - driver
+      summary: Updates driver information
+      description: Updates driver information
+      operationId: updateDriver
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Driver id
+          type: integer
+        - name: name
+          in: query
+          required: true
+          description: Driver name
+          type: string
+        - name: address
+          in: query
+          required: true
+          description: Driver address
+          type: string
+        - name: licenseStatus
+          in: query
+          required: true
+          description: Driver License Status
+          type: boolean
   /bus-routes:
     get:
       tags:
@@ -239,6 +327,43 @@ paths:
       description: Inserts new schedule record for a bus
       operationId: addSchedule
       parameters:
+        - name: bus
+          in: query
+          required: true
+          description: Bus id
+          type: integer
+        - name: driver
+          in: query
+          required: true
+          description: Driver id
+          type: integer
+        - name: route
+          in: query
+          required: true
+          description: Route id
+          type: integer
+        - name: datetime
+          in: query
+          required: true
+          description: Schedule
+          type: string
+        - name: isStandBy
+          in: query
+          required: true
+          description: Bus stand by status
+          type: boolean
+    put:
+      tags:
+        - bus
+      summary: Updates schedule for a bus
+      description: Updates existing schedule record for a bus
+      operationId: updateSchedule
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Schedule id
+          type: integer
         - name: bus
           in: query
           required: true

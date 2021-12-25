@@ -10,6 +10,7 @@ import * as echarts from 'echarts'
 import { Component, Prop } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import ResizeMixin from '@/components/Charts/mixins/resize'
+import { BusModule } from '@/store/modules/bus'
 
 @Component({
   name: 'PieChart'
@@ -33,7 +34,7 @@ export default class extends mixins(ResizeMixin) {
     this.chart = null
   }
 
-  private initChart() {
+  private async initChart() {
     this.chart = echarts.init(this.$el as HTMLDivElement)
     this.chart.setOption({
       tooltip: {
@@ -53,8 +54,8 @@ export default class extends mixins(ResizeMixin) {
           radius: [15, 95],
           center: ['50%', '38%'],
           data: [
-            { value: 2, name: 'Inactive' },
-            { value: 9, name: 'Active' }
+            { value: BusModule.buses.filter(bus => !bus.status).length, name: 'Inactive' },
+            { value: BusModule.buses.filter(bus => bus.status).length, name: 'Active' }
           ],
           animationEasing: 'cubicInOut',
           animationDuration: 2600

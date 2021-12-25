@@ -144,7 +144,7 @@ export default class extends mixins(VueDevex) {
 
   @Prop() driverIdProp!: any
 
-  private gridRefKey = 'scheduleGrid';
+  private gridRefKey = 'driverGrid';
   private list: IRowData[] = [];
   private licenseStatusOptions = [
     { value: false, name: 'Invalid' },

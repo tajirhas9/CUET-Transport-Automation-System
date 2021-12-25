@@ -1,10 +1,11 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
 import store from '@/store'
-import { getBuses } from '@/api/bus'
+import { addNewBus, getBuses, updateBus } from '@/api/bus'
 
 export interface IBusState {
   id: number
   name: string
+  status: boolean
 }
 
 export interface IBusesState {
@@ -27,6 +28,34 @@ class Bus extends VuexModule implements IBusesState {
       this.SET_BUSES(data.buses)
     } catch (e: any) {
       throw Error(e)
+    }
+  }
+
+  @Action
+  public async addNewBus(payload: { name: string, status: boolean }) {
+    try {
+      await addNewBus(payload)
+      await this.getBuses()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  @Action
+  public async updateBus(payload: { id: number, data: { name: string, status: boolean } }) {
+    try {
+      const currentBusInfo = this.buses.find(bus => bus.id === payload.id)
+      if (currentBusInfo) {
+        const requestPayload = {
+          id: payload.id,
+          name: payload.data.name || currentBusInfo.name,
+          status: payload.data.status || currentBusInfo.status
+        }
+        await updateBus(requestPayload)
+        await this.getBuses()
+      }
+    } catch (e) {
+      console.error(e)
     }
   }
 }

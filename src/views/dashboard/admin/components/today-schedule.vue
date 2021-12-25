@@ -72,7 +72,7 @@
         header-cell-template="title-header"
         :caption="$t('bus.bus')"
         cell-template="cellTemplate"
-        :width="200"
+        :width="300"
       >
         <dx-lookup
           :data-source="buses"
@@ -87,7 +87,7 @@
         header-cell-template="title-header"
         :caption="$t('driver.driver')"
         cell-template="cellTemplate"
-        :width="200"
+        :width="300"
       >
         <dx-lookup
           :data-source="drivers"
@@ -101,7 +101,7 @@
         data-type="datetime"
         header-cell-template="title-header"
         :caption="$t('bus.schedule')"
-        :width="200"
+        :width="300"
       >
         <DxRequiredRule />
       </dx-column>
@@ -110,7 +110,7 @@
         data-type="number"
         header-cell-template="title-header"
         :caption="$t('bus.route')"
-        :width="500"
+        :width="550"
         cell-template="routeCellTemplate"
       >
        <dx-lookup
@@ -172,7 +172,7 @@ import { BusRouteModule } from '@/store/modules/bus-route'
 import { BusScheduleModule } from '@/store/modules/schedule'
 
 @Component({
-  name: 'ScheduleTable',
+  name: 'TodaySchedule',
   components: {
   }
 })
@@ -200,12 +200,19 @@ export default class extends mixins(VueDevex) {
   }
 
   get schedules() {
-    return BusScheduleModule.schedule.sort((a, b) => {
+    return BusScheduleModule.schedule.filter(schedule => this.isToday(new Date(schedule.datetime))).sort((a, b) => {
       if (new Date(a.datetime) > new Date(b.datetime)) {
         return -1
       }
       return 0
     })
+  }
+
+  private isToday = (someDate: Date) => {
+    const today = new Date()
+    return someDate.getDate() === today.getDate() &&
+            someDate.getMonth() === today.getMonth() &&
+            someDate.getFullYear() === today.getFullYear()
   }
 
   private thisRoute(routeId: number) {
@@ -298,9 +305,8 @@ export default class extends mixins(VueDevex) {
 
 <style>
 .grid {
-  width: 93%;
+  widows: 100%;
   align-self: center;
-  margin-left: 3.5%;
 }
 .dx-searchbox .dx-icon-search {
   left: 0px;

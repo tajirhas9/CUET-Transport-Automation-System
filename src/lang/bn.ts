@@ -8,7 +8,9 @@ export default {
     totalBus: 'মোট বাস',
     totalSeat: 'আসন ক্ষমতা',
     rupsha: 'রূপসা',
-    meghna: 'মেঘনা'
+    meghna: 'মেঘনা',
+    route: 'রুট',
+    status: 'বাসের অবস্থা'
   },
   driver: {
     driver: 'চালক',
@@ -23,6 +25,7 @@ export default {
   route: {
     busSchedule: 'বাসের সময়সূচী',
     drivers: 'চালক',
+    buses: 'বাস',
     dashboard: 'ড্যাশবোর্ড',
     documentation: 'Documentation',
     guide: 'Guide',

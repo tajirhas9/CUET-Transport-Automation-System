@@ -6,7 +6,6 @@ export const getRoutes = async(req: Request, res: Response) => {
     const queryString = 'select * from route'
     console.log(queryString)
     const routes = await pool.query(queryString)
-    console.log(JSON.stringify(routes.rows))
     return res.json({
       code: 200,
       data: {

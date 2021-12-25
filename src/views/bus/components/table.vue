@@ -10,7 +10,7 @@
       class="grid"
       key-expr="id"
       :ref="dataGridRefKey"
-      :data-source="schedules"
+      :data-source="buses"
       :show-borders="true"
       :show-column-lines="true"
       :row-alternation-enabled="true"
@@ -46,77 +46,31 @@
         />
         <DxForm>
           <DxItem :col-count="2" :col-span="2" item-type="group">
-            <DxItem data-field="bus" />
-            <DxItem data-field="driver" />
-            <DxItem data-field="datetime" />
-          </DxItem>
-          <DxItem :col-count="1" :col-span="2" item-type="group">
-            <DxItem data-field="busRoute"/>
+            <DxItem data-field="name" />
+            <DxItem data-field="status" />
           </DxItem>
         </DxForm>
       </DxEditing>
-      <!-- <DxColumn :group-index="0" data-field="Product" /> -->
       <dx-column
-        data-field="id"
-        :caption="$t('general.id')"
-        data-type="number"
-        alignment="right"
-        :allow-editing="false"
+        data-field="name"
+        data-type="string"
         header-cell-template="title-header"
-        :width="100"
-        :hidden="true"
-      />
-      <dx-column
-        data-field="bus"
-        data-type="number"
-        header-cell-template="title-header"
-        :caption="$t('bus.bus')"
-        cell-template="cellTemplate"
-        :width="200"
-      >
-        <dx-lookup
-          :data-source="buses"
-          value-expr="id"
-          display-expr="name"
-        />
-        <DxRequiredRule />
-      </dx-column>
-      <dx-column
-        data-field="driver"
-        data-type="number"
-        header-cell-template="title-header"
-        :caption="$t('driver.driver')"
-        cell-template="cellTemplate"
-        :width="200"
-      >
-        <dx-lookup
-          :data-source="drivers"
-          value-expr="id"
-          display-expr="name"
-        />
-        <DxRequiredRule />
-      </dx-column>
-      <dx-column
-        data-field="datetime"
-        data-type="datetime"
-        header-cell-template="title-header"
-        :caption="$t('bus.schedule')"
-        :width="200"
-      >
-        <DxRequiredRule />
-      </dx-column>
-      <dx-column
-        data-field="busRoute"
-        data-type="number"
-        header-cell-template="title-header"
-        :caption="$t('bus.route')"
+        :caption="$t('driver.name')"
         :width="500"
-        cell-template="routeCellTemplate"
       >
-       <dx-lookup
-          :data-source="busRoutes"
-          value-expr="id"
-          display-expr="checkpoints"
+        <DxRequiredRule />
+      </dx-column>
+      <dx-column
+        data-field="status"
+        data-type="boolean"
+        header-cell-template="title-header"
+        :caption="$t('bus.status')"
+        cell-template="busStatusTemplate"
+      >
+        <dx-lookup
+          :data-source="busStatusOptions"
+          value-expr="value"
+          display-expr="name"
         />
         <DxRequiredRule />
       </dx-column>
@@ -142,18 +96,10 @@
           <a>{{ data.text }}</a>
         </div>
       </template>
-      <template #statusTemplate="{data}">
-        <el-tag :type="data.text | statusFilter">
+      <template #busStatusTemplate="{data}">
+        <el-tag :type="data.text | busStatusFilter">
           {{ data.text }}
         </el-tag>
-      </template>
-      <template #routeCellTemplate="{data}">
-        <p>
-          <span v-for="(item, index) in thisRoute(data.data.route).checkpoints" :key="index">
-            <span v-if="index === 0">{{ item }}</span>
-            <span v-else> -> {{ item }}</span>
-          </span>
-        </p>
       </template>
     </dx-data-grid>
   </div>
@@ -166,13 +112,17 @@
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import VueDevex from '@/layout/mixin/vue-devex'
-import { BusModule } from '@/store/modules/bus'
 import { DriverModule } from '@/store/modules/driver'
-import { BusRouteModule } from '@/store/modules/bus-route'
-import { BusScheduleModule } from '@/store/modules/schedule'
+import { BusModule } from '@/store/modules/bus'
 
+interface IRowData {
+  driverId: number
+  name: string
+  address: string
+  licenseStatus: boolean
+}
 @Component({
-  name: 'ScheduleTable',
+  name: 'BusTable',
   components: {
   }
 })
@@ -180,67 +130,33 @@ export default class extends mixins(VueDevex) {
   constructor() {
     super()
     super.dataGridRefKey = this.gridRefKey
-    super.tableName = 'Bus Schedule'
+    super.tableName = 'Buses'
   }
 
-  @Prop() driverIdProp!: any
+  @Prop() busIdProp!: any
 
-  private gridRefKey = 'scheduleGrid';
-
-  get drivers() {
-    return DriverModule.drivers
-  }
+  private gridRefKey = 'busGrid';
+  private busStatusOptions = [
+    { value: true, name: 'Active' },
+    { value: false, name: 'Inactive' }
+  ]
 
   get buses() {
     return BusModule.buses
   }
 
-  get busRoutes() {
-    return BusRouteModule.busRoutes
-  }
-
-  get schedules() {
-    return BusScheduleModule.schedule.sort((a, b) => {
-      if (new Date(a.datetime) > new Date(b.datetime)) {
-        return -1
-      }
-      return 0
-    })
-  }
-
-  private thisRoute(routeId: number) {
-    return BusRouteModule.busRoutes.find(route => route.id === routeId)
-  }
-
   private async getList() {
     this.listLoading = true
     await BusModule.getBuses()
-    await DriverModule.getDrivers()
-    await BusRouteModule.getRoutes()
-    await BusScheduleModule.getBusSchedules()
     this.listLoading = false
   }
 
   private onCellClick(e: any) {
-    if (e.column.name === 'bus') {
-      const busId = e.data.bus
-      console.log(`bus: ${busId}`)
-      this.$router.push({
-        name: 'Buses',
-        params: { busIdProp: busId.toString() }
-      })
-    } else if (e.column.name === 'driver') {
-      const driverId = e.data.driver
-      console.log(`driver: ${driverId}`)
-      this.$router.push({
-        name: 'Drivers',
-        params: { driverIdProp: driverId.toString() }
-      })
-    }
+    throw new Error('Method not implemented.')
   }
 
   // These method will get merged with the VueDevex mixin's method
-  onInitNewRow() {
+  onInitNewRow(e: any) {
     throw new Error('Method not implemented.')
   }
 
@@ -250,10 +166,10 @@ export default class extends mixins(VueDevex) {
       const changes = e.changes[0]
       console.debug(changes)
       if (changes.type === 'insert') {
-        await BusScheduleModule.addBusSchedule(changes.data)
+        await BusModule.addNewBus(changes.data)
       } else if (changes.type === 'update') {
         console.log(changes)
-        await BusScheduleModule.updateBusScedule({ id: changes.key, data: changes.data })
+        await BusModule.updateBus({ id: changes.key, data: changes.data })
       }
       this.$notify({
         title: 'Success',
@@ -280,17 +196,23 @@ export default class extends mixins(VueDevex) {
     this.getList() // table data
   }
 
-  @Watch('driverIdProp')
-  OnDriverIdPropChange(val: string, oldVal: string) {
+  @Watch('busIdProp')
+  OnBusIdPropChange(val: string, oldVal: string) {
     console.log(
-      `driverIdProp props changed from ${oldVal} to ${val}`
+      `busIdProp props changed from ${oldVal} to ${val}`
     )
+    this.dataGrid.filter(['id', '=', parseInt(this.busIdProp)])
+  }
+
+  @Watch('drivers')
+  OnDriversChange() {
+    this.getList()
   }
 
   @Watch('clearFilterTriggered')
   OnClearFilterTriggered(val: boolean) {
     if (val) {
-      this.driverIdProp = undefined
+      this.busIdProp = undefined
     }
   }
 }

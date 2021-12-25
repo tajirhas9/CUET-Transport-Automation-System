@@ -71,12 +71,19 @@ service.interceptors.response.use(
         UserModule.ResetToken()
         location.reload() // To prevent bugs from vue-router
       })
+    } else if (error.response.status === 409) {
+      Message({
+        message: error.response.data.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    } else {
+      Message({
+        message: error.response.data.message ? error.response.data.message : error.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
     }
-    Message({
-      message: error.response.data.message ? error.response.data.message : error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
     return Promise.reject(error)
   }
 )

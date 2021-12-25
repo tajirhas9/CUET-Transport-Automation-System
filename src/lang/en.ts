@@ -8,7 +8,9 @@ export default {
     totalBus: 'Total Bus',
     totalSeat: 'Seat Capacity',
     rupsha: 'Rupsha',
-    meghna: 'Meghna'
+    meghna: 'Meghna',
+    route: 'Route',
+    status: 'Bus Condition'
   },
   driver: {
     driver: 'Driver',
@@ -23,6 +25,7 @@ export default {
   route: {
     busSchedule: 'Bus Schedule',
     drivers: 'Drivers',
+    buses: 'Bus',
     dashboard: 'Dashboard',
     documentation: 'Documentation',
     guide: 'Guide',

@@ -109,6 +109,23 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   {
+    path: '/buses',
+    component: Layout,
+    children: [
+      {
+        path: 'buses',
+        component: () => import('@/views/bus/index.vue'),
+        name: 'Buses',
+        props: true,
+        meta: {
+          roles: [Roles.admin, Roles.staff, Roles.teacher, Roles.student],
+          title: 'buses',
+          icon: 'bus'
+        }
+      }
+    ]
+  },
+  {
     path: '/drivers',
     component: Layout,
     children: [
