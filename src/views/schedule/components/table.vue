@@ -10,7 +10,7 @@
       class="grid"
       key-expr="id"
       :ref="dataGridRefKey"
-      :data-source="list"
+      :data-source="schedules"
       :show-borders="true"
       :show-column-lines="true"
       :row-alternation-enabled="true"
@@ -46,9 +46,12 @@
         />
         <DxForm>
           <DxItem :col-count="2" :col-span="2" item-type="group">
-            <DxItem data-field="busId" />
-            <DxItem data-field="driverId" />
-            <DxItem data-field="time" />
+            <DxItem data-field="bus" />
+            <DxItem data-field="driver" />
+            <DxItem data-field="datetime" />
+          </DxItem>
+          <DxItem :col-count="1" :col-span="2" item-type="group">
+            <DxItem data-field="busRoute"/>
           </DxItem>
         </DxForm>
       </DxEditing>
@@ -61,44 +64,60 @@
         :allow-editing="false"
         header-cell-template="title-header"
         :width="100"
+        :hidden="true"
       />
       <dx-column
-        data-field="busId"
+        data-field="bus"
         data-type="number"
         header-cell-template="title-header"
         :caption="$t('bus.bus')"
         cell-template="cellTemplate"
-        :width="500"
+        :width="200"
       >
         <dx-lookup
-          :data-source="busLookUp"
+          :data-source="buses"
           value-expr="id"
           display-expr="name"
         />
         <DxRequiredRule />
       </dx-column>
       <dx-column
-        data-field="driverId"
+        data-field="driver"
         data-type="number"
         header-cell-template="title-header"
         :caption="$t('driver.driver')"
         cell-template="cellTemplate"
-        :width="500"
+        :width="200"
       >
         <dx-lookup
-          :data-source="driverLookUp"
+          :data-source="drivers"
           value-expr="id"
           display-expr="name"
         />
         <DxRequiredRule />
       </dx-column>
       <dx-column
-        data-field="time"
+        data-field="datetime"
         data-type="datetime"
         header-cell-template="title-header"
         :caption="$t('bus.schedule')"
         :width="200"
       >
+        <DxRequiredRule />
+      </dx-column>
+      <dx-column
+        data-field="busRoute"
+        data-type="number"
+        header-cell-template="title-header"
+        :caption="$t('bus.route')"
+        :width="500"
+        cell-template="routeCellTemplate"
+      >
+       <dx-lookup
+          :data-source="busRoutes"
+          value-expr="id"
+          display-expr="checkpoints"
+        />
         <DxRequiredRule />
       </dx-column>
       <dx-column type="buttons">
@@ -128,6 +147,14 @@
           {{ data.text }}
         </el-tag>
       </template>
+      <template #routeCellTemplate="{data}">
+        <p>
+          <span v-for="(item, index) in thisRoute(data.data.route).checkpoints" :key="index">
+            <span v-if="index === 0">{{ item }}</span>
+            <span v-else> -> {{ item }}</span>
+          </span>
+        </p>
+      </template>
     </dx-data-grid>
   </div>
 </template>
@@ -139,14 +166,11 @@
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import VueDevex from '@/layout/mixin/vue-devex'
-import { LookUp } from '@/api/types'
+import { BusModule } from '@/store/modules/bus'
+import { DriverModule } from '@/store/modules/driver'
+import { BusRouteModule } from '@/store/modules/bus-route'
+import { BusScheduleModule } from '@/store/modules/schedule'
 
-interface IRowData {
-  id: number
-  busId: number
-  driverId: number
-  time: string
-}
 @Component({
   name: 'ScheduleTable',
   components: {
@@ -162,59 +186,94 @@ export default class extends mixins(VueDevex) {
   @Prop() driverIdProp!: any
 
   private gridRefKey = 'scheduleGrid';
-  private list: IRowData[] = [];
-  private driverLookUp: LookUp[] = [
-    {
-      id: 1,
-      name: this.$t('driver.rohim').toString()
-    },
-    {
-      id: 2,
-      name: this.$t('driver.korim').toString()
-    }
-  ];
 
-  private busLookUp: LookUp[] = [
-    {
-      id: 1,
-      name: this.$t('bus.rupsha').toString()
-    },
-    {
-      id: 2,
-      name: this.$t('bus.meghna').toString()
-    }
-  ];
+  get drivers() {
+    return DriverModule.drivers
+  }
+
+  get buses() {
+    return BusModule.buses
+  }
+
+  get busRoutes() {
+    return BusRouteModule.busRoutes
+  }
+
+  get schedules() {
+    return BusScheduleModule.schedule.sort((a, b) => {
+      if (new Date(a.datetime) > new Date(b.datetime)) {
+        return -1
+      }
+      return 0
+    })
+  }
+
+  private thisRoute(routeId: number) {
+    return BusRouteModule.busRoutes.find(route => route.id === routeId)
+  }
 
   private async getList() {
     this.listLoading = true
-    this.list = [
-      {
-        id: 1,
-        busId: 1,
-        driverId: 1,
-        time: '2019-01-01 00:00:00'
-      },
-      {
-        id: 2,
-        busId: 2,
-        driverId: 2,
-        time: '2019-01-01 00:00:00'
-      }
-    ]
+    await BusModule.getBuses()
+    await DriverModule.getDrivers()
+    await BusRouteModule.getRoutes()
+    await BusScheduleModule.getBusSchedules()
     this.listLoading = false
   }
 
   private onCellClick(e: any) {
-    throw new Error('Method not implemented.')
+    if (e.column.name === 'bus') {
+      const busId = e.data.bus
+      console.log(`bus: ${busId}`)
+      this.$router.push({
+        name: 'Buses',
+        params: { busIdProp: busId.toString() }
+      })
+    } else if (e.column.name === 'driver') {
+      const driverId = e.data.driver
+      console.log(`driver: ${driverId}`)
+      this.$router.push({
+        name: 'Drivers',
+        params: { driverIdProp: driverId.toString() }
+      })
+    }
   }
 
   // These method will get merged with the VueDevex mixin's method
-  onInitNewRow(e: any) {
+  onInitNewRow() {
     throw new Error('Method not implemented.')
   }
 
   private async onSaving(e: any) {
-    throw new Error('Method not implemented.')
+    this.listLoading = true
+    try {
+      const changes = e.changes[0]
+      console.debug(changes)
+      if (changes.type === 'insert') {
+        await BusScheduleModule.addBusSchedule(changes.data)
+      } else if (changes.type === 'update') {
+        console.log(changes)
+        await BusScheduleModule.updateBusScedule({ id: changes.key, data: changes.data })
+      }
+      this.$notify({
+        title: 'Success',
+        message: 'Data updated successfully',
+        type: 'success',
+        duration: 2000
+      })
+      if (e.changes[0].type === 'insert') {
+        await this.getList()
+      }
+    } catch (e) {
+      this.$notify({
+        title: 'Failed',
+        message: 'Data updated failed',
+        type: 'error',
+        duration: 2000
+      })
+    }
+    e.cancel = true
+    this.listLoading = false
   }
 
   created() {

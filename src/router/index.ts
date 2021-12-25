@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 
 /* Layout */
 import Layout from '@/layout/index.vue'
+import { Roles } from '@/api/enums'
 
 Vue.use(VueRouter)
 
@@ -95,14 +96,48 @@ export const asyncRoutes: RouteConfig[] = [
     component: Layout,
     children: [
       {
-        path: '/schedule',
+        path: 'schedule',
         component: () => import('@/views/schedule/index.vue'),
         name: 'Bus Schedule',
         props: true,
         meta: {
-          roles: ['admin', 'client'],
+          roles: [Roles.admin, Roles.staff, Roles.teacher, Roles.student],
           title: 'busSchedule',
+          icon: 'list'
+        }
+      }
+    ]
+  },
+  {
+    path: '/buses',
+    component: Layout,
+    children: [
+      {
+        path: 'buses',
+        component: () => import('@/views/bus/index.vue'),
+        name: 'Buses',
+        props: true,
+        meta: {
+          roles: [Roles.admin, Roles.staff, Roles.teacher, Roles.student],
+          title: 'buses',
           icon: 'bus'
+        }
+      }
+    ]
+  },
+  {
+    path: '/drivers',
+    component: Layout,
+    children: [
+      {
+        path: 'drivers',
+        component: () => import('@/views/drivers/index.vue'),
+        name: 'Drivers',
+        props: true,
+        meta: {
+          roles: [Roles.admin, Roles.staff, Roles.teacher, Roles.student],
+          title: 'drivers',
+          icon: 'driver'
         }
       }
     ]

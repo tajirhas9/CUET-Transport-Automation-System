@@ -8,19 +8,24 @@ export default {
     totalBus: 'Total Bus',
     totalSeat: 'Seat Capacity',
     rupsha: 'Rupsha',
-    meghna: 'Meghna'
+    meghna: 'Meghna',
+    route: 'Route',
+    status: 'Bus Condition'
   },
   driver: {
     driver: 'Driver',
     totalDriver: 'Total Driver',
-    rohim: 'Rohim',
-    korim: 'Korim'
+    name: 'Name',
+    address: 'Address',
+    licenseStatus: 'License Status'
   },
   general: {
     id: 'ID'
   },
   route: {
     busSchedule: 'Bus Schedule',
+    drivers: 'Drivers',
+    buses: 'Bus',
     dashboard: 'Dashboard',
     documentation: 'Documentation',
     guide: 'Guide',

@@ -25,7 +25,7 @@
           </div>
           <count-to
             :start-val="0"
-            :end-val="11"
+            :end-val="totalBus"
             :duration="2600"
             class="card-panel-num"
           />
@@ -54,7 +54,7 @@
           </div>
           <count-to
             :start-val="0"
-            :end-val="6"
+            :end-val="totalDriver"
             :duration="3000"
             class="card-panel-num"
           />
@@ -83,7 +83,7 @@
           </div>
           <count-to
             :start-val="0"
-            :end-val="500"
+            :end-val="seatCapacity"
             :duration="3200"
             class="card-panel-num"
           />
@@ -103,6 +103,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import CountTo from 'vue-count-to'
+import { BusModule } from '@/store/modules/bus'
+import { DriverModule } from '@/store/modules/driver'
 
 @Component({
   name: 'PanelGroup',
@@ -111,6 +113,18 @@ import CountTo from 'vue-count-to'
   }
 })
 export default class extends Vue {
+  get totalBus() {
+    return BusModule.buses.length
+  }
+
+  get totalDriver() {
+    return DriverModule.drivers.length
+  }
+
+  get seatCapacity() {
+    return BusModule.buses.length * 60
+  }
+
   private handleSetLineChartData(type: string) {
     this.$emit('handle-set-line-chart-data', type)
   }
