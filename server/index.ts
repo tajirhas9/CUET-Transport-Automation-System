@@ -8,14 +8,7 @@ import yaml from 'yamljs'
 import * as api from './api'
 import { accessTokenAuth } from './security'
 import { connector, summarise } from 'swagger-routes-express'
-import dotenv from 'dotenv'
-dotenv.config()
-
-if (process.env.NODE_ENV === 'development') {
-  require('../.env.development')
-} else if (process.env.NODE_ENV === 'production') {
-  require('../.env.production')
-}
+require('dotenv').config()
 
 const app = express()
 const port = 9528

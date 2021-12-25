@@ -5,7 +5,7 @@
   "author": "Syed Tajir Hasnain <u1604081@student.cuet.ac.bd>",
   "scripts": {
     "serve": "concurrently \"npm:backend\" \"vue-cli-service serve\"",
-    "start": "vue-cli-service serve",
+    "start": "NODE_ENV=production && concurrently \"npm:backend\" \"vue-cli-service serve\"",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "build:prod": "vue-cli-service build",
