@@ -1,10 +1,10 @@
 import { Pool, PoolConfig } from 'pg'
 
 export const DBCredentials = {
-  user: process.env.DATABASE_USER,
-  host: process.env.DATABASE_HOST,
-  database: process.env.DATABASE_NAME,
-  password: process.env.DATABASE_USER_PASSWORD,
+  user: 'ctas-admin',
+  host: 'localhost',
+  database: 'ctas-db',
+  password: '#1164093',
   port: 5432
 } as PoolConfig
 
