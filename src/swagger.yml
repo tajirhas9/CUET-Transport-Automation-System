@@ -136,7 +136,7 @@ paths:
           required: true
           description: Driver address
           type: string
-        - name: licenseStatus
+        - name: license
           in: query
           required: true
           description: Driver License Status
@@ -165,7 +165,7 @@ paths:
           required: true
           description: Driver address
           type: string
-        - name: licenseStatus
+        - name: license
           in: query
           required: true
           description: Driver License Status
