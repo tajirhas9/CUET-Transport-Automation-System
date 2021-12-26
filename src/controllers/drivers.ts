@@ -27,7 +27,7 @@ export const addDriver = async(req: any, res: Response) => {
   try {
     const { name, address, licenseStatus } = req.body
 
-    const queryString = `insert into driver(name, address, licenseStatus) values(${name}, ${address}, ${licenseStatus});`
+    const queryString = `insert into driver(name, address, licenseStatus) values('${name}', '${address}', ${licenseStatus});`
     console.log(queryString)
     const data = await pool.query(queryString)
     return res.json({
@@ -50,7 +50,7 @@ export const addDriver = async(req: any, res: Response) => {
 export const updateDriver = async(req: any, res: Response) => {
   try {
     const { id, name, address, licenseStatus } = req.body
-    const queryString = `update driver set name=${name}, address=${address}, licenseStatus=${licenseStatus} where id=${id};`
+    const queryString = `update driver set name='${name}', address='${address}', licenseStatus=${licenseStatus} where id=${id};`
     console.log(queryString)
     const data = await pool.query(queryString)
     return res.json({

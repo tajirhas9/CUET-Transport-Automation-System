@@ -28,7 +28,7 @@ export const addBus = async(req: any, res: Response) => {
   try {
     const { name, status } = req.body
 
-    const queryString = `insert into bus(name, status) values(${name}, ${status});`
+    const queryString = `insert into bus(name, status) values('${name}', ${status});`
     console.log(queryString)
     const data = await pool.query(queryString)
     return res.json({
@@ -51,7 +51,7 @@ export const addBus = async(req: any, res: Response) => {
 export const updateBus = async(req: any, res: Response) => {
   try {
     const { id, name, status } = req.body
-    const queryString = `update bus set name=${name}, status=${status} where id=${id};`
+    const queryString = `update bus set name='${name}', status=${status} where id=${id};`
     console.log(queryString)
     const data = await pool.query(queryString)
     return res.json({
